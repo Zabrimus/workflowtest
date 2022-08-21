@@ -1,12 +1,8 @@
-name: Build Failure
+name: Build All
 
 # Controls when the workflow will run
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows: ["Build All"]
-    type:
-      - complete
 
 jobs:
   build:
@@ -17,7 +13,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Build Failure
+      - name: Build All
         run: |
-          echo "Build Failure..."
-          exit 1
+          echo "Build All..."

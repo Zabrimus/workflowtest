@@ -3,6 +3,10 @@ name: Build CoreELEC-20
 # Controls when the workflow will run
 on:
   workflow_dispatch:
+  workflow_run:
+    workflows: ["Build All"]
+    type:
+      - complete
 
 jobs:
   build:
