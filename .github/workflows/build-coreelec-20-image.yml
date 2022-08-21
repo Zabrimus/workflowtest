@@ -1,0 +1,19 @@
+name: Build CoreELEC-20
+
+# Controls when the workflow will run
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Build CoreELEC-20
+        run: |
+          echo "Build CoreELEC-20..."
+
