@@ -21,7 +21,7 @@ jobs:
 
   build:
     needs: pre_build
-    if: ${{ needs.pre_job.outputs.should_skip != 'true' }}
+    if: ${{ needs.pre_build.outputs.should_skip != 'true' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -31,5 +31,5 @@ jobs:
 
       - name: Build LibreELEC-master-arm-Allwinner-H6
         run: |
-          echo "Build LibreELEC-master-arm-Allwinner-H6..."
+          echo "Build LibreELEC-master-arm-Allwinner-H6: ${{ needs.pre_build.outputs.should_skip}}"
 

@@ -21,7 +21,7 @@ jobs:
 
   build:
     needs: pre_build
-    if: ${{ needs.pre_job.outputs.should_skip != 'true' }}
+    if: ${{ needs.pre_build.outputs.should_skip != 'true' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -31,4 +31,4 @@ jobs:
 
       - name: Build CoreELEC-19.4-Matrix
         run: |
-          echo "Build CoreELEC-19.4-Matrix..."
+          echo "Build CoreELEC-19.4-Matrix: ${{ needs.pre_build.outputs.should_skip}}"
