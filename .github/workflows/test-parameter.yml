@@ -1,0 +1,36 @@
+name: Build All
+
+on:
+  workflow_dispatch:
+    inputs:
+      gitref_to_build:
+        description: "gitref tag or hash to build"
+        default: vdrelec-20-VDR
+        required: true
+        type: string
+      target:
+        description: "targets to build"
+        default: all
+        required: true
+        type: choice
+        options:
+          - all
+          - H6.arm
+          - H3.arm
+          - H5.arm
+          - A64.arm
+          - R40.arm
+          - Amlogic-ng.arm
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Build All
+        run: |
+          echo "Build All..."
