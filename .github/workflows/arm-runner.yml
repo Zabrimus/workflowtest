@@ -33,7 +33,7 @@ jobs:
 
           sudo apt -y install libc6-amd64-cross
           
-          (cd / && sudo ln -s /usr/lib64/ /lib64)
+          (cd / && sudo ln -s /usr/x86_64-linux-gnu/lib64 lib64)
           
           dpkg -L libc6-amd64-cross
           
