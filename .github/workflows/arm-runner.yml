@@ -15,29 +15,20 @@ jobs:
 
       - name: Build All
         run: |                    
-          # git clone https://github.com/Zabrimus/VDRSternELEC.git
-          # cd VDRSternELEC
-          # git submodule update --init -- CoreELEC
-          # git submodule update --init -- LibreELEC.tv
+          git clone https://github.com/Zabrimus/VDRSternELEC.git
+          cd VDRSternELEC
+          git submodule update --init -- CoreELEC
+          git submodule update --init -- LibreELEC.tv
           
-          # mkdir -p CoreELEC/sources
-          # mkdir -p LibreELEC.tv/sources          
-          # mkdir -p CoreELEC/target
-          # mkdir -p LibreELEC.tv/target
+          mkdir -p CoreELEC/sources
+          mkdir -p LibreELEC.tv/sources          
+          mkdir -p CoreELEC/target
+          mkdir -p LibreELEC.tv/target
           
           sudo apt update
-          #sudo apt -y install gcc make git unzip wget xz-utils bc gperf zip g++ xfonts-utils xsltproc openjdk-11-jre-headless libxml-parser-perl lzop libjson-parse-perl libjson-perl \
-          #    libparse-yapp-perl libncurses5-dev bc bzip2 diffutils gawk gcc gperf gzip file patchutils lzop make patch perl sed tar unzip wget xz-utils zip zstd \
-          #    libncurses5-dev libc6-dev libparse-yapp-perl libxml-parser-perl qemu-user-binfmt g++ xfonts-utils xsltproc rdfind libc6-amd64-cross libglib2.0-0 \
-          #    libelf-dev elfutils
+          sudo apt -y install gcc make git unzip wget xz-utils bc gperf zip g++ xfonts-utils xsltproc openjdk-11-jre-headless libxml-parser-perl lzop libjson-parse-perl libjson-perl \
+              libparse-yapp-perl libncurses5-dev bc bzip2 diffutils gawk gcc gperf gzip file patchutils lzop make patch perl sed tar unzip wget xz-utils zip zstd \
+              libncurses5-dev libc6-dev libparse-yapp-perl libxml-parser-perl qemu-user-binfmt g++ xfonts-utils xsltproc rdfind libc6-amd64-cross libglib2.0-0 \
+              libelf-dev elfutils
 
-          sudo apt -y install libc6-amd64-cross
-          
-          (cd / && sudo ln -s /usr/x86_64-linux-gnu/lib64 lib64)
-          
-          dpkg -L libc6-amd64-cross
-          
-          ls -la /lib64/
-          
-
-          # ./build.sh -config LibreELEC-13-aarch64-AMLGX -extra easyvdr,channellogos,remotetranscode,cefbrowser -releaseonly
+          ./build.sh -config LibreELEC-13-aarch64-AMLGX -extra easyvdr,channellogos,remotetranscode,cefbrowser -releaseonly
