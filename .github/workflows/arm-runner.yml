@@ -14,7 +14,7 @@ jobs:
           fetch-depth: 0
 
       - name: Build All
-        run: |
+        run: |                    
           # git clone https://github.com/Zabrimus/VDRSternELEC.git
           # cd VDRSternELEC
           # git submodule update --init -- CoreELEC
@@ -33,7 +33,8 @@ jobs:
 
           sudo apt -y install libc6-amd64-cross
           
-          apt search qemu
+          (cd / && ln -s /usr/lib64/ /lib64)
+          
           dpkg -L libc6-amd64-cross
           
           ls -la /lib64/
