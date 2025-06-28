@@ -1,4 +1,4 @@
-name: Build All
+name: Arm Runner
 
 # Controls when the workflow will run
 on:
