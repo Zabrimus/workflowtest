@@ -15,7 +15,19 @@ jobs:
 
       - name: Build All
         run: |
-          df -h
-          uname -a
-          gcc -v
+          git clone https://github.com/Zabrimus/VDRSternELEC.git
+          cd VDRSternELEC
+          git submodule update --init -- CoreELEC
+          git submodule update --init -- LibreELEC.tv
           
+          mkdir -p CoreELEC/sources
+          mkdir -p LibreELEC.tv/sources          
+          mkdir -p CoreELEC/target
+          mkdir -p LibreELEC.tv/target
+          
+          sudo apt update
+          sudo apt -y install gcc make git unzip wget xz-utils bc gperf zip g++ xfonts-utils xsltproc openjdk-11-jre-headless libxml-parser-perl lzop libjson-parse-perl libjson-perl \
+              libparse-yapp-perl libncurses5-dev bc bzip2 diffutils gawk gcc gperf gzip file patchutils lzop make patch perl sed tar unzip wget xz-utils zip zstd \
+              libncurses5-dev libc6-dev libparse-yapp-perl libxml-parser-perl qemu-user-binfmt g++ xfonts-utils xsltproc rdfind
+    
+          ./build.sh -config LibreELEC-13-aarch64-AMLGX -extra easyvdr,channellogos,remotetranscode,cefbrowser -releaseonly
