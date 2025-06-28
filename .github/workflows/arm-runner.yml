@@ -16,5 +16,5 @@ jobs:
       - name: Build All
         run: |
           df -h
-          dpkg -L
+          dpkg -l
           
