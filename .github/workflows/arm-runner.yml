@@ -31,4 +31,4 @@ jobs:
               libncurses5-dev libc6-dev libparse-yapp-perl libxml-parser-perl qemu-user-binfmt g++ xfonts-utils xsltproc rdfind libc6-amd64-cross libglib2.0-0 \
               libelf-dev elfutils
 
-          ./build.sh -config LibreELEC-13-aarch64-AMLGX -extra easyvdr,channellogos,remotetranscode,cefbrowser -releaseonly
+          ./build.sh -config CoreELEC-22-no -extra easyvdr,channellogos,remotetranscode,cefbrowser -releaseonly -package m4:host
