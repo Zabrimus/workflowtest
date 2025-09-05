@@ -260,7 +260,7 @@ jobs:
           
           DEINSTALL=""
           for i in $(dpkg -l | awk '{ print $2 }' | tail -n +6); do
-             if [ $(grep -ice "^$i$" packages-minimal) -eq 0 ]; then 
+             if [ $(grep -c "^$i$" packages-minimal) -eq 0 ]; then 
                 echo "Delete package $i"
                 DEINSTALL="$DEINSTALL $i"                 
              fi
