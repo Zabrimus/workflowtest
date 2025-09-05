@@ -259,7 +259,7 @@ jobs:
       - name: Remove all packages which are not in Ubuntu minimal
         run: |
           for i in $(dpkg -l | awk '{ print $2 }'); do
-             if [ $(grep -ic $i packages-minimal) -eq 0 ]; then 
+             if [ $(grep -ice "^$i$" packages-minimal) -eq 0 ]; then 
                 echo "Delete package $i"
              fi
           done  
