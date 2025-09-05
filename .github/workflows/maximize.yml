@@ -12,11 +12,13 @@ jobs:
         run: |
           sudo apt update
           sudo apt install eatmydata
+          sudo ln -s /usr/lib/x86_64-linux-gnu/libeatmydata.so /usr/lib/libeatmydata.so
 
       - name: List all packages of Ubuntu minimal
         run: |
           echo <<EOF >packages-minimal
           eatmydata
+          libeatmydata1:amd64
           adduser
           apt
           apt-utils
@@ -251,10 +253,14 @@ jobs:
 
       - name: Remove all packages which are not in Ubuntu minimal
         run: |
+          # remove at first snap
+          sudo snap remove $(snap list | awk '!/^Name|^core|^snapd/ {print $1}') || true
+          sudo apt -y --purge purge snapd || true
+          
           for i in $(dpkg -l | awk '{ print $2 }'); do
              if [ $(grep -ice "^$i$" packages-minimal) -eq 0 ]; then 
                 echo "Delete package $i"
-                eatmydata -- sudo apt remove --purge $i || true
+                eatmydata -- sudo apt -y --purge purge $i || true
              fi
           done  
 
