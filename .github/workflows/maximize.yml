@@ -1,4 +1,4 @@
-name: Build All2
+name: Maximize V4
 
 on:
   workflow_dispatch:
