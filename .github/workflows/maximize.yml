@@ -16,18 +16,59 @@ jobs:
 
       - name: Remove all packages which are not in important or required
         run: |
-          # remove at first snap
+          echo "Remove snapd"
           sudo systemctl disable snapd || true
-          sudo snap remove $(snap list | awk '!/^Name|^core|^snapd/ {print $1}') || true
+          sudo snap remove $(snap list | awk '!/^Name|^core|^snapd/ {print $1}') || true          
           sudo eatmydata apt -y --purge purge snapd || true          
+          
+          echo "Remove docker images"
+          docker system prune -af || true
+          docker builder prune -af || true
+          
+          echo "Remove non-important packages"
           sudo eatmydata apt -y purge $(aptitude search '~i!~M!~prequired!~pimportant!~R~prequired!~R~R~prequired!~R~pimportant!~R~R~pimportant!initramfs-tools!eatmydata!shim-signed' | awk '{print $2}')
-          sudo eatmydata apt -y autoremove
+          
+          echo "Autoremove"
+          sudo eatmydata apt -y --purge autoremove
+
+          echo "Remove some directories"
+          sudo rm -rf /var/lib/gems/3.2.0 /usr/libexec/docker /etc/needrestart/conf.d /etc/cloud/cloud.cfg.d /etc/ssh/sshd_config.d /usr/share/php /lib/systemd/user-generators /lib/systemd/user /usr/local/share/man/man1 /usr/lib/systemd/system-sleep /usr/lib/systemd/system-shutdown /etc/php/8.3/mods-available /lib/modules/6.11.0-1018-azure              
+
+          echo "Remove .NET SDKs"
+          sudo rm -rf /usr/share/dotnet
+
+          echo "Remove Swift toolchain"
+          sudo rm -rf /usr/share/swift
+
+          echo "Remove Haskell (GHC)"
+          sudo rm -rf /usr/local/.ghcup
+
+          echo "Remove Julia"
+          sudo rm -rf /usr/local/julia*
+
+          echo "Remove Android SDKs"
+          sudo rm -rf /usr/local/lib/android
+
+          echo "Remove Chromium"
+          sudo rm -rf /usr/local/share/chromium
+
+          echo "Remove Microsoft/Edge and Google Chrome builds"
+          sudo rm -rf /opt/microsoft /opt/google
+
+          echo "Remove Azure CLI"
+          sudo rm -rf /opt/az
+
+          echo "Remove PowerShell"
+          sudo rm -rf /usr/local/share/powershell
+
+          echo "Remove CodeQL and other toolcaches"
+          sudo rm -rf /opt/hostedtoolcache
 
       - name: Show disk usage
         run: df -h
 
-      #- name: Top-level directories
-      #  run: sudo du -h -d1 / | sort -hr | head -n 20
+      - name: Top-level directories
+        run: sudo du -h -d1 / | sort -hr | head -n 20
 
-      #- name: Detailed file sizes
-      #  run: sudo find / -type f -exec du -h {} + 2>/dev/null | sort -hr | head -n 1000
+      - name: Detailed file sizes
+        run: sudo find / -type f -exec du -h {} + 2>/dev/null | sort -hr | head -n 1000
