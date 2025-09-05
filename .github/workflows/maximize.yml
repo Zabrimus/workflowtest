@@ -38,7 +38,9 @@ jobs:
                       /usr/lib/systemd/system-sleep /usr/lib/systemd/system-shutdown /etc/php/8.3/mods-available \
                       /lib/modules/6.11.0-1018-azure /usr/share/az_12.5.0 /usr/share/miniconda \
                       /usr/local/aws-cli /usr/share/kotlinc /home/runner/.dotnet /home/packer/.dotnet \
-                      /etc/skel/.dotnet /usr/local/man/ /usr/local/share/chromedriver-linux64                 
+                      /etc/skel/.dotnet /usr/local/man/ /usr/local/share/chromedriver-linux64 \
+                      /home/runner/.rustup /home/linuxbrew /usr/share/java /home/runner/.cargo \
+                      /var/lib/mysql /var/lib/waagent
 
           echo "Remove .NET SDKs"
           sudo rm -rf /usr/share/dotnet
