@@ -13,6 +13,8 @@ jobs:
           sudo apt update
           sudo apt install eatmydata
           sudo ln -s /usr/lib/x86_64-linux-gnu/libeatmydata.so /usr/lib/libeatmydata.so
+          
+          dpkg-query -Wf '${Package;-40}${Priority}\n' | sort -b -k2,2 -k1,1
 
       - name: List all packages of Ubuntu minimal
         run: |
