@@ -254,15 +254,18 @@ jobs:
       - name: Remove all packages which are not in Ubuntu minimal
         run: |
           # remove at first snap
+          sudo systemctl disable snapd || true
           sudo snap remove $(snap list | awk '!/^Name|^core|^snapd/ {print $1}') || true
           sudo apt -y --purge purge snapd || true
           
+          DEINSTALL=""
           for i in $(dpkg -l | awk '{ print $2 }'); do
              if [ $(grep -ice "^$i$" packages-minimal) -eq 0 ]; then 
                 echo "Delete package $i"
-                eatmydata -- sudo apt -y --purge purge $i || true
+                DEINSTALL="$DEINSTALL $i"                 
              fi
           done  
+          sudo eatmydata sapt -y --purge purge $DEINSTALL || true
 
       - name: Show disk usage
         run: df -h
