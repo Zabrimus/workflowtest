@@ -265,7 +265,7 @@ jobs:
                 DEINSTALL="$DEINSTALL $i"                 
              fi
           done  
-          sudo eatmydata sapt -y --purge purge $DEINSTALL || true
+          sudo eatmydata apt -y --purge purge $DEINSTALL || true
 
       - name: Show disk usage
         run: df -h
