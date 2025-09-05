@@ -8,18 +8,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Show disk usage
-        run: df -h
-
-      - name: Top-level directories
-        run: sudo du -h -d1 / | sort -hr | head -n 20
-
-      - name: Detailed file sizes
-        run: sudo find / -type f -exec du -h {} + 2>/dev/null | sort -hr | head -n 1000
+      - name: Preinstall packages
+        run: |
+          sudo apt update
+          sudo apt install eatmydata
 
       - name: List all packages of Ubuntu minimal
         run: |
           echo <<EOF >packages-minimal
+          eatmydata
           adduser
           apt
           apt-utils
@@ -252,14 +249,20 @@ jobs:
           zlib1g:amd64
           EOF
 
-      - name: List all packages
-        run: |
-          sudo dpkg -l
-
       - name: Remove all packages which are not in Ubuntu minimal
         run: |
           for i in $(dpkg -l | awk '{ print $2 }'); do
              if [ $(grep -ice "^$i$" packages-minimal) -eq 0 ]; then 
                 echo "Delete package $i"
+                eatmydata -- sudo apt remove --purge $i || true
              fi
           done  
+
+      - name: Show disk usage
+        run: df -h
+
+      - name: Top-level directories
+        run: sudo du -h -d1 / | sort -hr | head -n 20
+
+      - name: Detailed file sizes
+        run: sudo find / -type f -exec du -h {} + 2>/dev/null | sort -hr | head -n 1000
