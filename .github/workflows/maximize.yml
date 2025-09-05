@@ -12,10 +12,10 @@ jobs:
         run: df -h
 
       - name: Top-level directories
-        run: du -h -d1 / | sort -hr | head -n 20
+        run: sudo du -h -d1 / | sort -hr | head -n 20
 
       - name: Detailed file sizes
-        run: find / -type f -exec du -h {} + 2>/dev/null | sort -hr | head -n 1000
+        run: sudo find / -type f -exec du -h {} + 2>/dev/null | sort -hr | head -n 1000
 
       - name: List all packages of Ubuntu minimal
         run: |
@@ -251,6 +251,10 @@ jobs:
           xxd
           zlib1g:amd64
           EOF
+
+      - name: List all packages
+        run: |
+          sudo dpkg -l
 
       - name: Remove all packages which are not in Ubuntu minimal
         run: |
