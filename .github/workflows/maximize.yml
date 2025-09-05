@@ -265,6 +265,8 @@ jobs:
                 DEINSTALL="$DEINSTALL $i"                 
              fi
           done  
+          
+          echo "Deinstall: $DEINSTALL"
           sudo eatmydata apt -y --purge purge $DEINSTALL || true
 
       - name: Show disk usage
