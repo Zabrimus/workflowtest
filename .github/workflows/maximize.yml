@@ -259,7 +259,7 @@ jobs:
           sudo apt -y --purge purge snapd || true
           
           DEINSTALL=""
-          for i in $(dpkg -l | awk '{ print $2 }'); do
+          for i in $(dpkg -l | awk '{ print $2 }' | tail -n +6); do
              if [ $(grep -ice "^$i$" packages-minimal) -eq 0 ]; then 
                 echo "Delete package $i"
                 DEINSTALL="$DEINSTALL $i"                 
@@ -272,8 +272,8 @@ jobs:
       - name: Show disk usage
         run: df -h
 
-      - name: Top-level directories
-        run: sudo du -h -d1 / | sort -hr | head -n 20
+      #- name: Top-level directories
+      #  run: sudo du -h -d1 / | sort -hr | head -n 20
 
-      - name: Detailed file sizes
-        run: sudo find / -type f -exec du -h {} + 2>/dev/null | sort -hr | head -n 1000
+      #- name: Detailed file sizes
+      #  run: sudo find / -type f -exec du -h {} + 2>/dev/null | sort -hr | head -n 1000
