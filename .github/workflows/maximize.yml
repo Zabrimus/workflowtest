@@ -32,7 +32,13 @@ jobs:
           sudo eatmydata apt -y --purge autoremove
 
           echo "Remove some directories"
-          sudo rm -rf /var/lib/gems/3.2.0 /usr/libexec/docker /etc/needrestart/conf.d /etc/cloud/cloud.cfg.d /etc/ssh/sshd_config.d /usr/share/php /lib/systemd/user-generators /lib/systemd/user /usr/local/share/man/man1 /usr/lib/systemd/system-sleep /usr/lib/systemd/system-shutdown /etc/php/8.3/mods-available /lib/modules/6.11.0-1018-azure              
+          sudo rm -rf /var/lib/gems/3.2.0 /usr/libexec/docker /etc/needrestart/conf.d \
+                      /etc/cloud/cloud.cfg.d /etc/ssh/sshd_config.d /usr/share/php \
+                      /lib/systemd/user-generators /lib/systemd/user /usr/local/share/man \
+                      /usr/lib/systemd/system-sleep /usr/lib/systemd/system-shutdown /etc/php/8.3/mods-available \
+                      /lib/modules/6.11.0-1018-azure /usr/share/az_12.5.0 /usr/share/miniconda \
+                      /usr/local/aws-cli /usr/share/kotlinc /home/runner/.dotnet /home/packer/.dotnet \
+                      /etc/skel/.dotnet /usr/local/man/ /usr/local/share/chromedriver-linux64                 
 
           echo "Remove .NET SDKs"
           sudo rm -rf /usr/share/dotnet
@@ -56,7 +62,7 @@ jobs:
           sudo rm -rf /opt/microsoft /opt/google
 
           echo "Remove Azure CLI"
-          sudo rm -rf /opt/az
+          sudo rm -rf /opt/az          
 
           echo "Remove PowerShell"
           sudo rm -rf /usr/local/share/powershell
