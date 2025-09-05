@@ -19,11 +19,9 @@ jobs:
           # remove at first snap
           sudo systemctl disable snapd || true
           sudo snap remove $(snap list | awk '!/^Name|^core|^snapd/ {print $1}') || true
-          sudo apt -y --purge purge snapd || true
-          
-          apt --dry-run  purge $(aptitude search '~i!~M!~prequired!~pimportant!~R~prequired!~R~R~prequired!~R~pimportant!~R~R~pimportant!initramfs-tools!eatmydata!shim-signed' | awk '{print $2}')
-
-          # sudo eatmydata apt -y --purge purge $(dpkg-query -Wf '${Package;-40}${Priority}\n' | sort -b -k2,2 -k1,1 | grep -v -E "required|important" | awk '{ print $1 }' | xargs) || true
+          sudo eatmydata apt -y --purge purge snapd || true          
+          sudo eatmydata apt -y purge $(aptitude search '~i!~M!~prequired!~pimportant!~R~prequired!~R~R~prequired!~R~pimportant!~R~R~pimportant!initramfs-tools!eatmydata!shim-signed' | awk '{print $2}')
+          sudo eatmydata apt -y autoremove
 
       - name: Show disk usage
         run: df -h
