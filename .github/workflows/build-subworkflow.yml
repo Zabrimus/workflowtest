@@ -5,7 +5,7 @@ on:
     inputs:
       runner:
         description: "Runner"
-        default: ubuntu-20.04
+        default: ubuntu-22.04
         required: true
         type: string
 
