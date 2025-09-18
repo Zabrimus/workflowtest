@@ -7,9 +7,9 @@ jobs:
   build-arm:
     uses: ./.github/workflows/build-subworkflow.yml
     with:
-      runner: ubuntu-22.04
+      runner: ubuntu-22.04-arm
 
   build-x86:
     uses: ./.github/workflows/build-subworkflow.yml
     with:
-      runner: ubuntu-22.04-arm
+      runner: ubuntu-22.04
