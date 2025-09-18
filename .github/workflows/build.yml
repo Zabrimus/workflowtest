@@ -4,12 +4,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-x86:
-    uses: ./.github/workflows/build-subworkflow.yml
-    with:
-      runner: ubuntu-22.04
-
   build-arm:
     uses: ./.github/workflows/build-subworkflow.yml
     with:
       runner: ubuntu-20.04-arm
+
+  build-x86:
+    uses: ./.github/workflows/build-subworkflow.yml
+    with:
+      runner: ubuntu-22.04
