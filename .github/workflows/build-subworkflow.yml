@@ -5,11 +5,25 @@ on:
     inputs:
       runner:
         description: "Runner"
+        default: ubuntu-20.04
+        required: true
         type: string
 
 jobs:
+  setup:
+    name: Setup
+    runs-on: ubuntu-22.04
+    outputs:
+      runner: ${{ steps.runner.outputs.runner }}
+    steps:
+      - name: Choose runner
+        id: runner
+        run: |
+          echo "runner=${{ inputs.runner }}" >> $GITHUB_OUTPUT
+
   build:
-    runs-on: ${{ inputs.runner }}
+    needs: [ setup ]
+    runs-on: ${{ needs.setup.outputs.runner }}
     name: Name
     steps:
       - name: Print System
