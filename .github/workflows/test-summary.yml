@@ -53,7 +53,7 @@ jobs:
             echo "Summary 1" > build-summary/build-summary-1
             echo "Summary 2" > build-summary/build-summary-2
           
-            mdkir -p build-artifacts
+            mkdir -p build-artifacts
             echo "Artefact 1" > build-artifacts/build-artifacts-1.zip
             echo "Artefact 2" > build-artifacts/build-artifacts-2.zip
 
