@@ -165,7 +165,7 @@ jobs:
           echo "Arch=${arch}"
           
           echo "START CCACHE"
-          (cd LibreELEC.tv && PROJECT=${project} DEVICE=${device} ARCH=${arch} scripts/build ccache:host)
+          (cd LibreELEC.tv && DISTRO=LibreELEC PROJECT=${project} DEVICE=${device} ARCH=${arch} scripts/build ccache:host)
           echo "ENDE CCACHE"
           
           if [ ! THREADCOUNT=0 ./build.sh -config LibreELEC-13-aarch64-AMLGX -package ccache:host ]; then
