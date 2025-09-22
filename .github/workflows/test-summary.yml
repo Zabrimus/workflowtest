@@ -42,7 +42,7 @@ jobs:
           echo "CURRENT_RELEASE_TAG=${TAG}" >> "$GITHUB_OUTPUT"
 
   create-release:
-    needs: [ prepare s]
+    needs: [ prepare ]
     runs-on: ubuntu-24.04
     if: ${{ always() }}
 
