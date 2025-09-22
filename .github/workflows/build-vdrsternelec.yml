@@ -8,8 +8,8 @@ jobs:
     runs-on: ubuntu-22.04-arm
     name: Build
     steps:
-      #- name: Maximize build space
-      #  uses: Zabrimus/maximize-build-space@master
+      - name: Maximize build space
+        uses: Zabrimus/maximize-build-space@master
 
       - name: Install packages
         shell: bash
