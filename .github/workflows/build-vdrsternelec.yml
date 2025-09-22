@@ -153,36 +153,14 @@ jobs:
         run: |
           BUILD_FAILED="false"
 
-          if [[ "${{ inputs.config }}" == CoreELEC* ]]; then
-              if [ ! "${{ inputs.addons }}" = "" ] && [ ! "${{ inputs.addons }}" = "-" ] && [ ! "${{ inputs.addons }}" = "'-'" ]; then
-                 ADDONS="-addon ${{ inputs.addons }}"
-              else
-                 ADDONS=""
-              fi
-          else
-              ADDONS=""
-          fi
-          
-          if [ ! "${{ inputs.extras }}" = "" ] && [ ! "${{ inputs.extras }}" = "-" ] && [ ! "${{ inputs.extras }}" = "'-'" ]; then
-             EXTRAS="-extra ${{ inputs.extras }}"
-          else
-             EXTRAS=""
-          fi
-
-          if [ ! "${{ inputs.extraparameter }}" = "" ] && [ ! "${{ inputs.extraparameter }}" = "-" ] && [ ! "${{ inputs.extraparameter }}" = "'-'" ]; then
-             EXTRA_PARAMETER="${{ inputs.extraparameter }}"
-          else
-             EXTRA_PARAMETER=""
-          fi
-          
           # build at first some special packages and then the main build (without addons)
-          if [ ! THREADCOUNT=0 ./build.sh -config ${{ inputs.config }} -package ccache:host ]; then
-              THREADCOUNT=0 ./clean-package.sh -config ${{ inputs.config }} ccache:host
-              THREADCOUNT=0 ./clean-package.sh -config ${{ inputs.config }} ccache
-              THREADCOUNT=0 ./build.sh -config ${{ inputs.config }} -package ccache:host || true
+          if [ ! THREADCOUNT=0 ./build.sh -config LibreELEC-13-aarch64-AMLGX -package ccache:host ]; then
+              THREADCOUNT=0 ./clean-package.sh -config LibreELEC-13-aarch64-AMLGX ccache:host
+              THREADCOUNT=0 ./clean-package.sh -config LibreELEC-13-aarch64-AMLGX ccache
+              THREADCOUNT=0 ./build.sh -config LibreELEC-13-aarch64-AMLGX -package ccache:host || true
           fi
           
-          THREADCOUNT=0 ./build.sh -config ${{ inputs.config }} -package libtool:host || true 
+          THREADCOUNT=0 ./build.sh -config LibreELEC-13-aarch64-AMLGX -package libtool:host || true 
           
           ############################
           ##### Stop all #############
