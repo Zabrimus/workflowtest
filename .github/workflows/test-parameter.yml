@@ -34,3 +34,6 @@ jobs:
       - name: Build All
         run: |
           echo "Build All..."
+          
+          VREV=$(git ls-remote https://github.com/${{ github.repository }} | head -1 | sed "s/HEAD//" | cut -c 1-7)
+          echo "VREF = ${VREV}
