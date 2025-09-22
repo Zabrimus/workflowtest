@@ -153,14 +153,22 @@ jobs:
         run: |
           BUILD_FAILED="false"
 
-          # build at first some special packages and then the main build (without addons)
+          # build at first some special packages and then the main build (without addons)          
+          project=$(grep "^PROJECT" config/distro/LibreELEC-13-aarch64-AMLGX | awk -F= '{ print $2 }')
+          device=$(grep "^DEVICE" config/distro/LibreELEC-13-aarch64-AMLGX | awk -F= '{ print $2 }')
+          arch=$(grep "^arch" config/distro/LibreELEC-13-aarch64-AMLGX | awk -F= '{ print $2 }')
+          
+          echo "START CCACHE"
+          (cd LibreELEC.tv && PROJECT=${project} DEVICE=${device} ARCH=${arch} scripts/build ccache:host)
+          echo "ENDE CCACHE"
+          
           if [ ! THREADCOUNT=0 ./build.sh -config LibreELEC-13-aarch64-AMLGX -package ccache:host ]; then
               THREADCOUNT=0 ./clean-package.sh -config LibreELEC-13-aarch64-AMLGX ccache:host
               THREADCOUNT=0 ./clean-package.sh -config LibreELEC-13-aarch64-AMLGX ccache
               THREADCOUNT=0 ./build.sh -config LibreELEC-13-aarch64-AMLGX -package ccache:host || true
           fi
           
-          THREADCOUNT=0 ./build.sh -config LibreELEC-13-aarch64-AMLGX -package libtool:host || true 
+          ./build.sh -config LibreELEC-13-aarch64-AMLGX -package libtool:host || true 
           
           ############################
           ##### Stop all #############
@@ -169,7 +177,7 @@ jobs:
           ############################
           
           if [ "${{ inputs.config }}" = "LibreELEC-12-x86_64-GenericLegacy" ] || [ "${{ inputs.config }}" = "LibreELEC-13-x86_64-GenericLegacy" ]; then
-               THREADCOUNT=0 ./build.sh -config ${{ inputs.config }} -package glad:host || true
+               ./build.sh -config ${{ inputs.config }} -package glad:host || true
           fi
                     
           if ! AUTOREMOVE=yes ./build.sh -config ${{ inputs.config }} ${EXTRAS} ${ADDONS} ${EXTRA_PARAMETER}; then
