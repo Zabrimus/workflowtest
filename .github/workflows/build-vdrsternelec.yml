@@ -153,10 +153,16 @@ jobs:
         run: |
           BUILD_FAILED="false"
 
-          # build at first some special packages and then the main build (without addons)          
+          # build at first some special packages and then the main build (without addons)
+          echo "GET VARS"
           project=$(grep "^PROJECT" config/distro/LibreELEC-13-aarch64-AMLGX | awk -F= '{ print $2 }')
+          echo "Project=${project}"
+          
           device=$(grep "^DEVICE" config/distro/LibreELEC-13-aarch64-AMLGX | awk -F= '{ print $2 }')
-          arch=$(grep "^arch" config/distro/LibreELEC-13-aarch64-AMLGX | awk -F= '{ print $2 }')
+          echo "Device=${device}"
+          
+          arch=$(grep "^ARCH" config/distro/LibreELEC-13-aarch64-AMLGX | awk -F= '{ print $2 }')
+          echo "Arch=${arch}"
           
           echo "START CCACHE"
           (cd LibreELEC.tv && PROJECT=${project} DEVICE=${device} ARCH=${arch} scripts/build ccache:host)
