@@ -1,11 +1,10 @@
-name: Build Artifacts
+name: TestBuild
 
 on:
   workflow_dispatch:
 
 jobs:
   build:
-    needs: [ setup ]
     runs-on: ubuntu-22.04-arm
     name: Build
     steps:
