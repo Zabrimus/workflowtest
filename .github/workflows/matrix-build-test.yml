@@ -137,6 +137,8 @@ jobs:
                   BUILDARM="$BUILDARM ${{ inputs.target }}"
               fi
           fi
+                
+          echo "==> ${BUILDX86}"
                     
           #if [ ! -n ${BUILDX86} ]; then
               echo "Build x86"
