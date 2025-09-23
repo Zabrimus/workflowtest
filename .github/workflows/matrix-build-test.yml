@@ -197,6 +197,6 @@ jobs:
           fi
           
           TITLE="(${{ inputs.target }}, ${RELEASETYPE})"
-          echo "Title = ${TITLE"}"
+          echo "Title = ${TITLE}"
           
           
