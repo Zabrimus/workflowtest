@@ -137,7 +137,11 @@ jobs:
                   BUILDARM="$BUILDARM ${{ inputs.target }}"
               fi
           fi
-                
+          
+          if [ ! -n ${BUILDX86} ]; then
+            echo "jooaaa"
+          fi
+          
           echo "==> ${BUILDX86}"
                     
           #if [ ! -n ${BUILDX86} ]; then
