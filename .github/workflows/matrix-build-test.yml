@@ -188,4 +188,15 @@ jobs:
       - name: Final
         shell: bash
         run: |
-          echo "Alles fertig"
+          echo "Alles fertig: ${inputs.extraparameter}"
+          
+          if [[ "${inputs.extraparameter}" =~ "releaseonly" ]]; then
+              RELEASETYPE="Release"
+          else
+              RELEASETYPE="Image"
+          fi
+          
+          TITLE="(${{ inputs.target }}, ${RELEASETYPE})"
+          echo "Title = ${TITLE"}"
+          
+          
