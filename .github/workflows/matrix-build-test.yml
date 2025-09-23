@@ -138,6 +138,8 @@ jobs:
               fi
           fi
   
+          echo "hier"
+  
           echo "Teste Matrix x: ${BUILDX86}" 
           if [ ! -n ${BUILDX86} ]; then
               echo "Build x86"
