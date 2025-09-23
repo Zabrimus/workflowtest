@@ -138,7 +138,7 @@ jobs:
               fi
           fi
                     
-          if [[ ! -n ${BUILDX86} ]]; then
+          if [[ -n ${BUILDX86} ]]; then
               for i in $BUILDX86; do
                 JSONX86="${JSONX86} {\"run\":\"$i\"},"
               done
@@ -148,7 +148,7 @@ jobs:
               echo "Matrix X86: ${JSONX86}"
           #fi
           
-          if [[ ! -n ${BUILDARM} ]]; then
+          if [[ -n ${BUILDARM} ]]; then
               for i in $BUILDARM; do
                 JSONARM="${JSONARM} {\"run\":\"$i\"},"
               done
