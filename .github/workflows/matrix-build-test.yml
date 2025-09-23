@@ -138,7 +138,7 @@ jobs:
               fi
           fi
           
-          if [ ! -n ${BUILDX86} ]; then
+          if [ -n ${BUILDX86} ]; then
             echo "jooaaa"
           fi
           
