@@ -140,7 +140,10 @@ jobs:
   
           echo "hier"
   
-          echo "Teste Matrix x: ${BUILDX86}" 
+          echo "Teste Matrix x: ${BUILDX86}"
+          
+          echo "Hier 2"
+          
           if [ ! -n ${BUILDX86} ]; then
               echo "Build x86"
               for i in $BUILDX86; do
