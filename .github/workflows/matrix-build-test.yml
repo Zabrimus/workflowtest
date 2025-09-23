@@ -137,14 +137,8 @@ jobs:
                   BUILDARM="$BUILDARM ${{ inputs.target }}"
               fi
           fi
-  
-          echo "hier"
-  
-          echo "Teste Matrix x: ${BUILDX86}"
-          
-          echo "Hier 2"
-          
-          if [ ! -n ${BUILDX86} ]; then
+                    
+          #if [ ! -n ${BUILDX86} ]; then
               echo "Build x86"
               for i in $BUILDX86; do
                 JSONX86="${JSONX86} {\"run\":\"$i\"},"
@@ -153,7 +147,7 @@ jobs:
               JSONX86="${JSONX86} ]}"
               echo "matrixx86=${JSONX86}" >> "$GITHUB_OUTPUT"
               echo "Matrix X86: ${JSONX86}"
-          fi
+          #fi
           
           echo "Teste Matrix y: ${BUILDARM}"
           if [ ! -n ${BUILDARM} ]; then
