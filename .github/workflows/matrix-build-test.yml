@@ -137,15 +137,8 @@ jobs:
                   BUILDARM="$BUILDARM ${{ inputs.target }}"
               fi
           fi
-          
-          if [[ -n ${BUILDX86} ]]; then
-            echo "jooaaa"
-          fi
-          
-          echo "==> ${BUILDX86}"
                     
-          #if [ ! -n ${BUILDX86} ]; then
-              echo "Build x86"
+          if [[ ! -n ${BUILDX86} ]]; then
               for i in $BUILDX86; do
                 JSONX86="${JSONX86} {\"run\":\"$i\"},"
               done
@@ -155,9 +148,7 @@ jobs:
               echo "Matrix X86: ${JSONX86}"
           #fi
           
-          echo "Teste Matrix y: ${BUILDARM}"
-          if [ ! -n ${BUILDARM} ]; then
-              echo "Build arn"
+          if [[ ! -n ${BUILDARM} ]]; then
               for i in $BUILDARM; do
                 JSONARM="${JSONARM} {\"run\":\"$i\"},"
               done
