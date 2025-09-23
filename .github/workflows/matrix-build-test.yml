@@ -180,3 +180,12 @@ jobs:
       runner: ubuntu-22.04-arm
     secrets: inherit
 
+  create-release:
+    needs: [ prepare-matrix, build-all-x86, build-all-arm ]
+    runs-on: ubuntu-24.04
+    if: ${{ always() }}
+    steps:
+      - name: Final
+        shell: bash
+        run: |
+          echo "Alles fertig"
