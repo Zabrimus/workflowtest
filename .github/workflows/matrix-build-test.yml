@@ -139,7 +139,7 @@ jobs:
           fi
   
           echo "Teste Matrix x: ${BUILDX86}" 
-          if [ ! -z ${BUILDX86} ]; then
+          if [ ! -n ${BUILDX86} ]; then
               echo "Build x86"
               for i in $BUILDX86; do
                 JSONX86="${JSONX86} {\"run\":\"$i\"},"
@@ -150,8 +150,8 @@ jobs:
               echo "Matrix X86: ${JSONX86}"
           fi
           
-          echo "Teste Matrix y: ${BUILDX86}"
-          if [ ! -z ${BUILDARM} ]; then
+          echo "Teste Matrix y: ${BUILDARM}"
+          if [ ! -n ${BUILDARM} ]; then
               echo "Build arn"
               for i in $BUILDARM; do
                 JSONARM="${JSONARM} {\"run\":\"$i\"},"
