@@ -146,7 +146,7 @@ jobs:
               JSONX86="${JSONX86} ]}"
               echo "matrixx86=${JSONX86}" >> "$GITHUB_OUTPUT"
               echo "Matrix X86: ${JSONX86}"
-          #fi
+          fi
           
           if [[ -n ${BUILDARM} ]]; then
               for i in $BUILDARM; do
