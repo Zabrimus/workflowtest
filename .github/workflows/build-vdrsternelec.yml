@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04-arm
+    runs-on: ubuntu-24.04
     name: Build
     steps:
       - name: Maximize build space
@@ -88,9 +88,9 @@ jobs:
           mkdir -p LibreELEC.tv/target
           
           # get config values (hack)
-          branch=$(grep "^PATCHDIR" config/distro/LibreELEC-13-aarch64-AMLGX | awk -F= '{ print $2 }')
-          project=$(grep "^PROJECT" config/distro/LibreELEC-13-aarch64-AMLGX | awk -F= '{ print $2 }')
-          device=$(grep "^DEVICE" config/distro/LibreELEC-13-aarch64-AMLGX | awk -F= '{ print $2 }')
+          branch=$(grep "^PATCHDIR" config/distro/CoreELEC-20-ng | awk -F= '{ print $2 }')
+          project=$(grep "^PROJECT" config/distro/CoreELEC-20-ng | awk -F= '{ print $2 }')
+          device=$(grep "^DEVICE" config/distro/CoreELEC-20-ng | awk -F= '{ print $2 }')
           
           echo "BRANCH=$branch" >> "$GITHUB_ENV"
           echo "PROJECT=$project" >> "$GITHUB_ENV"
@@ -154,30 +154,14 @@ jobs:
           BUILD_FAILED="false"
 
           # build at first some special packages and then the main build (without addons)
-          echo "GET VARS"
-          project=$(grep "^PROJECT" config/distro/LibreELEC-13-aarch64-AMLGX | awk -F= '{ print $2 }')
-          echo "Project=${project}"
-          
-          device=$(grep "^DEVICE" config/distro/LibreELEC-13-aarch64-AMLGX | awk -F= '{ print $2 }')
-          echo "Device=${device}"
-          
-          arch=$(grep "^ARCH" config/distro/LibreELEC-13-aarch64-AMLGX | awk -F= '{ print $2 }')
-          echo "Arch=${arch}"
-          
-          echo "START CCACHE"
-          find LibreELEC.tv -name .ccache 
-          find LibreELEC.tv -name .ccache-local
-          
-          (cd LibreELEC.tv && DISTRO=LibreELEC PROJECT=${project} DEVICE=${device} ARCH=${arch} scripts/build ccache:host)
-          echo "ENDE CCACHE"
-          
-          if [ ! THREADCOUNT=0 ./build.sh -config LibreELEC-13-aarch64-AMLGX -package ccache:host ]; then
-              THREADCOUNT=0 ./clean-package.sh -config LibreELEC-13-aarch64-AMLGX ccache:host
-              THREADCOUNT=0 ./clean-package.sh -config LibreELEC-13-aarch64-AMLGX ccache
-              THREADCOUNT=0 ./build.sh -config LibreELEC-13-aarch64-AMLGX -package ccache:host || true
+          ./build.sh -config CoreELEC-20-ng -package gcc:host
+          ./build.sh -config CoreELEC-20-ng -package gccs
+          ./build.sh -config CoreELEC-20-ng -package ccache:host
+          ./build.sh -config CoreELEC-20-ng -package libtool:host
+               
+          if [ "CoreELEC-20-ng" = "LibreELEC-12-x86_64-GenericLegacy" ] || [ "CoreELEC-20-ng" = "LibreELEC-13-x86_64-GenericLegacy" ]; then
+              ./build.sh -config CoreELEC-20-ng -package glad:host || true
           fi
-          
-          ./build.sh -config LibreELEC-13-aarch64-AMLGX -package libtool:host || true 
           
           ############################
           ##### Stop all #############
