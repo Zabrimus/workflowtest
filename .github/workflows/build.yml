@@ -248,6 +248,15 @@ jobs:
                   BUILDARM22="$BUILDARM22 ${{ inputs.target }}"
               fi
           fi
+
+          if [[ -n ${BUILDX8622} ]]; then
+              for i in $BUILDX8622; do
+                  JSONX8622="${JSONX8622} {\"run\":\"$i\"},"
+              done          
+              JSONX8622="${JSONX8622} ]}"
+              echo "matrixx8622=${JSONX8622}" >> "$GITHUB_OUTPUT"
+              echo "Matrix X8622: ${JSONX8622}"
+          fi
           
           if [[ -n ${BUILDX8624} ]]; then
               for i in $BUILDX8624; do
