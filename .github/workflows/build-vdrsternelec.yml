@@ -1,12 +1,52 @@
-name: TestBuild
+name: Build Artifacts
 
 on:
-  workflow_dispatch:
+  workflow_call:
+    inputs:
+      config:
+        description: "Configuration to build"
+        default: CoreELEC-22-no
+        type: string
+
+      releasetag:
+        description: "Release Tag"
+        required: true
+        type: string
+
+      addons:
+        description: "addons"
+        type: string
+
+      extras:
+        description: "extras"
+        type: string
+
+      extraparameter:
+        description: "extra parameter"
+        type: string
+
+      runner:
+        description: "Runner"
+        default: ubuntu-22.04
+        required: true
+        type: string
 
 jobs:
+  setup:
+    name: Setup
+    runs-on: ubuntu-22.04
+    outputs:
+      runner: ${{ steps.runner.outputs.runner }}
+    steps:
+      - name: Choose runner
+        id: runner
+        run: |
+          echo "runner=${{ inputs.runner }}" >> $GITHUB_OUTPUT
+
   build:
-    runs-on: ubuntu-24.04
-    name: Build
+    needs: [ setup ]
+    runs-on: ${{ needs.setup.outputs.runner }}
+    name: ${{ inputs.config }}
     steps:
       - name: Maximize build space
         uses: Zabrimus/maximize-build-space@master
@@ -69,8 +109,8 @@ jobs:
 
       - uses: actions/checkout@v3
         with:
-          repository: 'Zabrimus/VDRSternELEC'
           fetch-depth: 0
+          repository: 'Zabrimus/VDRSternELEC'
 
       - name: Create dir and determine source artifact
         shell: bash
@@ -88,9 +128,9 @@ jobs:
           mkdir -p LibreELEC.tv/target
           
           # get config values (hack)
-          branch=$(grep "^PATCHDIR" config/distro/CoreELEC-20-ng | awk -F= '{ print $2 }')
-          project=$(grep "^PROJECT" config/distro/CoreELEC-20-ng | awk -F= '{ print $2 }')
-          device=$(grep "^DEVICE" config/distro/CoreELEC-20-ng | awk -F= '{ print $2 }')
+          branch=$(grep "^PATCHDIR" config/distro/${{ inputs.config }} | awk -F= '{ print $2 }')
+          project=$(grep "^PROJECT" config/distro/${{ inputs.config }} | awk -F= '{ print $2 }')
+          device=$(grep "^DEVICE" config/distro/${{ inputs.config }} | awk -F= '{ print $2 }')
           
           echo "BRANCH=$branch" >> "$GITHUB_ENV"
           echo "PROJECT=$project" >> "$GITHUB_ENV"
@@ -132,7 +172,6 @@ jobs:
           name: ${{ env.ARTIFACT }}-1
           name_is_regexp: false
           path: ${{ env.DISTRO }}/sources
-          repo: 'Zabrimus/VDRSternELEC'
 
       - name: Download artifact
         id: download-artifact-2
@@ -146,37 +185,55 @@ jobs:
           name: ${{ env.ARTIFACT }}-2
           name_is_regexp: false
           path: ${{ env.DISTRO }}/sources
-          repo: 'Zabrimus/VDRSternELEC'
 
       - name: Build
         shell: bash
         run: |
           BUILD_FAILED="false"
 
-          # build at first some special packages and then the main build (without addons)
-          ./build.sh -config CoreELEC-20-ng -package gcc:host
-          ./build.sh -config CoreELEC-20-ng -package gccs
-          ./build.sh -config CoreELEC-20-ng -package ccache:host
-          ./build.sh -config CoreELEC-20-ng -package libtool:host
-               
-          if [ "CoreELEC-20-ng" = "LibreELEC-12-x86_64-GenericLegacy" ] || [ "CoreELEC-20-ng" = "LibreELEC-13-x86_64-GenericLegacy" ]; then
-              ./build.sh -config CoreELEC-20-ng -package glad:host || true
+          if [[ "${{ inputs.config }}" == CoreELEC* ]]; then
+              if [ ! "${{ inputs.addons }}" = "" ] && [ ! "${{ inputs.addons }}" = "-" ] && [ ! "${{ inputs.addons }}" = "'-'" ]; then
+                 ADDONS="-addon ${{ inputs.addons }}"
+              else
+                 ADDONS=""
+              fi
+          else
+              ADDONS=""
           fi
           
-          ############################
-          ##### Stop all #############
-          ############################
-          exit 1
-          ############################
+          if [ ! "${{ inputs.extras }}" = "" ] && [ ! "${{ inputs.extras }}" = "-" ] && [ ! "${{ inputs.extras }}" = "'-'" ]; then
+             EXTRAS="-extra ${{ inputs.extras }}"
+          else
+             EXTRAS=""
+          fi
+
+          if [ ! "${{ inputs.extraparameter }}" = "" ] && [ ! "${{ inputs.extraparameter }}" = "-" ] && [ ! "${{ inputs.extraparameter }}" = "'-'" ]; then
+             EXTRA_PARAMETER="${{ inputs.extraparameter }}"
+          else
+             EXTRA_PARAMETER=""
+          fi
+          
+          # build at first some special packages and then the main build
+          #./build.sh -config ${{ inputs.config }} -package gcc:host
+          #./build.sh -config ${{ inputs.config }} -package gcc
+          #./build.sh -config ${{ inputs.config }} -package ccache:host
+          #./build.sh -config ${{ inputs.config }} -package libtool:host
           
           if [ "${{ inputs.config }}" = "LibreELEC-12-x86_64-GenericLegacy" ] || [ "${{ inputs.config }}" = "LibreELEC-13-x86_64-GenericLegacy" ]; then
                ./build.sh -config ${{ inputs.config }} -package glad:host || true
           fi
-                    
-          if ! AUTOREMOVE=yes ./build.sh -config ${{ inputs.config }} ${EXTRAS} ${ADDONS} ${EXTRA_PARAMETER}; then
+          
+          echo "==> Free space after first build"
+          df -h
+
+          # build all                    
+          if ! ./build.sh -config ${{ inputs.config }} ${EXTRAS} ${ADDONS} ${EXTRA_PARAMETER}; then
               BUILD_FAILED="true"
           fi                  
-          
+
+          echo "==> Free space after second build"
+          df -h
+
           echo "BUILD_FAILED=$BUILD_FAILED" >> "$GITHUB_ENV"
 
           # create summary
