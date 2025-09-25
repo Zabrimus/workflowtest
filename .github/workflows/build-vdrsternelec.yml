@@ -165,6 +165,7 @@ jobs:
         uses: dawidd6/action-download-artifact@v3
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
+          repo: 'Zabrimus/VDRSternELEC'
           workflow: precache-sources.yml
           if_no_artifact_found: ignore
           check_artifacts: true
@@ -178,6 +179,7 @@ jobs:
         uses: dawidd6/action-download-artifact@v3
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
+          repo: 'Zabrimus/VDRSternELEC'
           workflow: precache-sources.yml
           if_no_artifact_found: ignore
           check_artifacts: true
