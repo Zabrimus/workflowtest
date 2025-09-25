@@ -166,7 +166,7 @@ jobs:
           
           JSONX8622="{\"include\":["
           JSONX8624="{\"include\":["
-          JSONX8622="{\"include\":["
+          JSONARM22="{\"include\":["
           JSONARM24="{\"include\":["
 
           if [[ "${{ inputs.target }}" == "all" ]] || [[ "${{ inputs.target }}" == "" ]]; then
