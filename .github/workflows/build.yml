@@ -33,8 +33,8 @@ on:
         type: choice
         options:
           - all
-          - CoreELEC all
-          - LibreELEC all
+          - CoreELEC-all
+          - LibreELEC-all
           - CoreELEC-20
           - CoreELEC-21
           - CoreELEC-22
@@ -153,10 +153,10 @@ jobs:
   prepare-matrix:
     runs-on: ubuntu-24.04
     outputs:
-      matrixx8622: ${{ steps.setmatrix.outputs.matrixx8622 }}
-      matrixx8624: ${{ steps.setmatrix.outputs.matrixx8624 }}
-      matrixarm22: ${{ steps.setmatrix.outputs.matrixarm22 }}
-      matrixarm24: ${{ steps.setmatrix.outputs.matrixarm24 }}
+        matrixx8622: ${{ steps.setmatrix.outputs.matrixx8622 }}
+        matrixx8624: ${{ steps.setmatrix.outputs.matrixx8624 }}
+        matrixarm22: ${{ steps.setmatrix.outputs.matrixarm22 }}
+        matrixarm24: ${{ steps.setmatrix.outputs.matrixarm24 }}
     steps:
       - name: Set Dynamic Matrix
         id: setmatrix
@@ -181,7 +181,7 @@ jobs:
                       BUILDARM22="$BUILDARM22 $i"
                   fi
               done
-          elif [[ "${{ inputs.target }}" == "CoreELEC all" ]]; then
+          elif [[ "${{ inputs.target }}" == "CoreELEC-all" ]]; then
               for i in $ALL_DEFAULT; do
                   if [[ "$i" == CoreELEC-20* ]] || [[ "$i" == CoreELEC-21* ]]; then
                       BUILDX8622="$BUILDX8622 $i"
@@ -189,7 +189,7 @@ jobs:
                       BUILDX8624="$BUILDX8624 $i"
                   fi
               done
-          elif [[ "${{ inputs.target }}" == "LibreELEC all" ]]; then
+          elif [[ "${{ inputs.target }}" == "LibreELEC-all" ]]; then
               for i in $ALL_DEFAULT; do
                   if [[ "$i" == LibreELEC* ]]; then
                       if [[ "$i" == *x86_64* ]]; then
@@ -248,7 +248,7 @@ jobs:
                   BUILDARM22="$BUILDARM22 ${{ inputs.target }}"
               fi
           fi
-
+          
           if [[ -n ${BUILDX8622} ]]; then
               for i in $BUILDX8622; do
                   JSONX8622="${JSONX8622} {\"run\":\"$i\"},"
@@ -364,28 +364,28 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: build-summary
-          pattern: build-summary-*
+          pattern: build-summary-${{ inputs.target }}*
           merge-multiple: true
 
       - name: Download release artifacts
         uses: actions/download-artifact@v4
         with:
           path: build-artifacts
-          pattern: build-artifacts-*
+          pattern: build-artifacts-*-${{ inputs.target }}*
           merge-multiple: true
 
       - name: Download addon artifacts
         uses: actions/download-artifact@v4
         with:
           path: build-addon
-          pattern: build-addon-*
+          pattern: build-addon-${{ inputs.target }}*
           merge-multiple: true
 
       - name: Download cef artifacts
         uses: actions/download-artifact@v4
         with:
           path: build-cef
-          pattern: build-cef-*
+          pattern: build-cef-${{ inputs.target }}*
           merge-multiple: true
 
       - name: Create release and upload files
@@ -460,7 +460,7 @@ jobs:
           
           TITLE="${{ inputs.target }}, ${RELEASETYPE}"
 
-          gh release create "${{ needs.prepare.outputs.CURRENT_RELEASE_TAG }}" -R ${{ github.repository }} -F release_notes --title "${{ needs.prepare.outputs.CURRENT_RELEASE_TAG }} (${TITLE})" --draft
+          gh release create "${{ needs.prepare.outputs.CURRENT_RELEASE_TAG }}-${{ inputs.target }}" -R ${{ github.repository }} -F release_notes --title "${{ needs.prepare.outputs.CURRENT_RELEASE_TAG }} (${TITLE})" --draft
           
           echo "-------------------------------"
           echo "Upload cef..."
@@ -470,7 +470,7 @@ jobs:
           for i in $(ls build-cef/*.zip || echo "notfound"); do
               if [ ! "$i" == "notfound" ]; then 
                   echo "Upload $i in release tag ${{ needs.prepare.outputs.CURRENT_RELEASE_TAG }}"
-                  gh release upload "${{ needs.prepare.outputs.CURRENT_RELEASE_TAG }}" $i --clobber -R ${{ github.repository }} || true
+                  gh release upload "${{ needs.prepare.outputs.CURRENT_RELEASE_TAG }}-${{ inputs.target }}" $i --clobber -R ${{ github.repository }} || true
               fi
           done
           
@@ -482,14 +482,14 @@ jobs:
           for i in $(ls build-addon/CoreELEC/target/addons/CoreELEC*zip || echo "notfound"); do
               if [ ! "$i" == "notfound" ]; then
                   echo "Upload $i in release tag ${{ needs.prepare.outputs.CURRENT_RELEASE_TAG }}"
-                  gh release upload "${{ needs.prepare.outputs.CURRENT_RELEASE_TAG }}" $i --clobber -R ${{ github.repository }} || true
+                  gh release upload "${{ needs.prepare.outputs.CURRENT_RELEASE_TAG }}-${{ inputs.target }}" $i --clobber -R ${{ github.repository }} || true
               fi
           done
           
           for i in $(ls build-addon/LibreELEC.tv/target/addons/LibreELEC*zip || echo "notfound"); do
               if [ ! "$i" == "notfound" ]; then
                   echo "Upload $i in release tag ${{ needs.prepare.outputs.CURRENT_RELEASE_TAG }}"
-                  gh release upload "${{ needs.prepare.outputs.CURRENT_RELEASE_TAG }}" $i --clobber -R ${{ github.repository }} || true
+                  gh release upload "${{ needs.prepare.outputs.CURRENT_RELEASE_TAG }}-${{ inputs.target }}" $i --clobber -R ${{ github.repository }} || true
               fi
           done
           
@@ -501,27 +501,29 @@ jobs:
           for i in $(ls build-artifacts/CoreELEC/target/VDR* || echo "notfound"); do
               if [ ! "$i" == "notfound" ]; then
                   echo "Upload $i in release tag ${{ needs.prepare.outputs.CURRENT_RELEASE_TAG }}"
-                  gh release upload "${{ needs.prepare.outputs.CURRENT_RELEASE_TAG }}" $i --clobber -R ${{ github.repository }} || true
+                  gh release upload "${{ needs.prepare.outputs.CURRENT_RELEASE_TAG }}-${{ inputs.target }}" $i --clobber -R ${{ github.repository }} || true
               fi
           done
           
           for i in $(ls build-artifacts/LibreELEC.tv/target/VDR* || echo "notfound"); do
               if [ ! "$i" == "notfound" ]; then
                   echo "Upload $i in release tag ${{ needs.prepare.outputs.CURRENT_RELEASE_TAG }}"
-                  gh release upload "${{ needs.prepare.outputs.CURRENT_RELEASE_TAG }}" $i --clobber -R ${{ github.repository }} || true
+                  gh release upload "${{ needs.prepare.outputs.CURRENT_RELEASE_TAG }}-${{ inputs.target }}" $i --clobber -R ${{ github.repository }} || true
               fi
           done
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
-#  delete-old-releases:
-#    needs: [create-release]
-#    name: delete-old-releases
-#    runs-on: ubuntu-24.04
-#    if: ${{ always() }}
-#    steps:
-#      - uses: dev-drprasad/delete-older-releases@v0.2.0
-#        with:
-#          repo: ${{ github.repository }}
-#          keep_latest: 20
+  delete-old-releases:
+    needs: [create-release]
+    name: delete-old-releases
+    runs-on: ubuntu-24.04
+    if: ${{ always() }}
+    steps:
+      - uses: dev-drprasad/delete-older-releases@v0.2.0
+        with:
+          repo: ${{ github.repository }}
+          keep_latest: 20
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
