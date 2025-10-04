@@ -1,4 +1,4 @@
-name: Build VDRSternELEC
+name: Build VDRSternELEC (copy)
 
 on:
   workflow_call:
