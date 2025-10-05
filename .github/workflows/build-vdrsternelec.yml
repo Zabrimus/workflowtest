@@ -125,6 +125,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          repository: 'Zabrimus/VDRSternELEC'
 
       - name: Create dir and determine source artifact
         shell: bash
@@ -248,7 +249,10 @@ jobs:
 
           echo "==> Free space after downloading sources"
           df -h
-                         
+               
+          # build libtool first
+          ./build.sh -config ${{ inputs.config }} ${EXTRAS} -package libtool:host || true
+          
           # build all                    
           if ! AUTOREMOVE="yes" ./build.sh -config ${{ inputs.config }} ${EXTRAS} ${ADDONS} ${EXTRA_PARAMETER}; then
               BUILD_FAILED="true"
