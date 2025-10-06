@@ -187,6 +187,7 @@ jobs:
           name: ${{ env.ARTIFACT }}-1
           name_is_regexp: false
           path: ${{ env.DISTRO }}/sources
+          repo: 'Zabrimus/VDRSternELEC'
 
       - name: Download artifact
         id: download-artifact-2
@@ -200,6 +201,7 @@ jobs:
           name: ${{ env.ARTIFACT }}-2
           name_is_regexp: false
           path: ${{ env.DISTRO }}/sources
+          repo: 'Zabrimus/VDRSternELEC'
 
       - name: Build
         shell: bash
