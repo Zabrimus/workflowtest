@@ -253,7 +253,7 @@ jobs:
           df -h
                
           # build libtool first
-          ./build.sh -config ${{ inputs.config }} ${EXTRAS} -package libtool:host || true
+          ./build.sh -config ${{ inputs.config }} ${EXTRAS} -package libtool:host
 
           # build all                    
           if ! AUTOREMOVE="yes" ./build.sh -config ${{ inputs.config }} ${EXTRAS} ${ADDONS} ${EXTRA_PARAMETER}; then
