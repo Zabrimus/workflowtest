@@ -255,13 +255,6 @@ jobs:
           # build libtool first
           ./build.sh -config ${{ inputs.config }} ${EXTRAS} -package libtool:host || true
 
-          # TEST
-          # build libtool test
-          ./build.sh -config ${{ inputs.config }} ${EXTRAS} -package libtool:host || true
-          # TEST
-          
-          exit 1
-          
           # build all                    
           if ! AUTOREMOVE="yes" ./build.sh -config ${{ inputs.config }} ${EXTRAS} ${ADDONS} ${EXTRA_PARAMETER}; then
               BUILD_FAILED="true"
