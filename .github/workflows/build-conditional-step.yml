@@ -1,0 +1,126 @@
+name: Build conditional step
+
+on:
+  workflow_call:
+    inputs:
+      remote:
+        description: "remote"
+        type: boolean
+        required: true
+
+  workflow_dispatch:
+    inputs:
+      remote:
+        description: "remote"
+        type: boolean
+        required: true
+        default: false
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    name: build
+    steps:
+      - name: Maximize build space
+        if: ${{ inputs.remote != true }}
+        uses: Zabrimus/maximize-build-space@master
+
+      - name: Install packages
+        if: ${{ inputs.remote != true }}
+        shell: bash
+        run: |
+            echo "In Install packages"
+
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Create dir and determine source artifact
+        shell: bash
+        id: source_artifact
+        run: |
+          echo "In source_artifact"
+
+      - name: Download artifact
+        if: ${{ inputs.remote != true }}
+        id: download-artifact-1
+        uses: dawidd6/action-download-artifact@v3
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: precache-sources.yml
+          if_no_artifact_found: ignore
+          check_artifacts: true
+          search_artifacts: true
+          name: ${{ env.ARTIFACT }}-1
+          name_is_regexp: false
+          path: ${{ env.DISTRO }}/sources
+
+      - name: Download artifact
+        if: ${{ inputs.remote != true }}
+        id: download-artifact-2
+        uses: dawidd6/action-download-artifact@v3
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: precache-sources.yml
+          if_no_artifact_found: ignore
+          check_artifacts: true
+          search_artifacts: true
+          name: ${{ env.ARTIFACT }}-2
+          name_is_regexp: false
+          path: ${{ env.DISTRO }}/sources
+
+      - name: Build
+        shell: bash
+        run: |
+          echo "In Build"
+
+      - name: Save summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: "build-summary-${{ inputs.config }}"
+          compression-level: 0
+          retention-days: 1
+          overwrite: true
+          if-no-files-found: ignore
+          path: |
+            build-summary-${{ inputs.config }}
+
+      - name: Check build
+        shell: bash
+        run: |
+            echo "In Check Build"
+
+      - name: Save release target files
+        uses: actions/upload-artifact@v4
+        with:
+          name: "build-artifacts-${{ inputs.releasetag }}-${{ inputs.config }}"
+          compression-level: 0
+          retention-days: 1
+          overwrite: true
+          if-no-files-found: ignore
+          path: |
+            CoreELEC/target/VDR*
+            LibreELEC.tv/target/VDR*
+
+      - name: Save addon target files
+        uses: actions/upload-artifact@v4
+        with:
+          name: "build-addon-${{ inputs.config }}"
+          compression-level: 0
+          retention-days: 1
+          overwrite: true
+          if-no-files-found: ignore
+          path: |
+            CoreELEC/target/addons/CoreELEC*zip 
+            LibreELEC.tv/target/addons/LibreELEC*zip
+
+      - name: Save cef files
+        uses: actions/upload-artifact@v4
+        with:
+          name: "build-cef-${{ inputs.config }}"
+          compression-level: 0
+          retention-days: 1
+          overwrite: true
+          if-no-files-found: ignore
+          path: |
+            cef/cef*.zip
