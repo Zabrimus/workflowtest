@@ -12,6 +12,8 @@ jobs:
       - name: Create folder and files
         run: |
           mkdir -p LibreELEC.tv/target
+          mkdir -p CoreELEC/target
+          
           touch LibreELEC.tv/target/LibreELEC-A6.aarch64-12.2-VDR-1014.kernel
           touch LibreELEC.tv/target/LibreELEC-A6.aarch64-12.2-VDR-1014.system
           touch LibreELEC.tv/target/LibreELEC-A6.aarch64-12.2-VDR-1014.tar
@@ -52,8 +54,20 @@ jobs:
               fi
             done;
           )
+
+          ( cd CoreELEC/target
+          
+            for i in `ls *.{tar,img.gz,sha256,ova}`; do
+              if [ -f $i ]; then
+                NEWNAME=$(echo $i | perl -pe "s/^CoreELEC/CE/");
+                NEWNAME=$(echo $NEWNAME | perl -pe "s/^CoreELEC/CE/");
+                mv $i $NEWNAME || true
+              fi
+            done;
+          )
           
           ls -la LibreELEC.tv/target
+          ls -la CoreELECs/target
 
       - name: Save release target files (part 1)
         uses: actions/upload-artifact@v4
