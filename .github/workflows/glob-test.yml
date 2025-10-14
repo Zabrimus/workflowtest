@@ -1,0 +1,43 @@
+name: Glob Test
+
+# Controls when the workflow will run
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Create folder and files
+        run: |
+          mkdir -p LibreELEC.tv/target
+          touch LibreELEC.tv/target/LibreELEC-H6.aarch64-12.2-VDR-1014.kernel
+          touch LibreELEC.tv/target/LibreELEC-H6.aarch64-12.2-VDR-1014.system
+          touch LibreELEC.tv/target/LibreELEC-H6.aarch64-12.2-VDR-1014.tar
+          touch LibreELEC.tv/target/LibreELEC-H6.aarch64-12.2-VDR-1014.tar.sha256
+
+      - name: Rename
+        run: |
+          ( cd LibreELEC.tv/target
+          
+            for i in `ls *.{tar,img.gz,sha256,ova}`; do
+              if [ -f $i ]; then
+                NEWNAME=$(echo $i | perl -pe "s/^LibreELEC/LE/");
+                NEWNAME=$(echo $NEWNAME | perl -pe "s/^CoreELEC/CE/");
+                mv $i $NEWNAME || true
+              fi
+            done;
+          )
+
+      - name: Save release target files (part 1)
+        uses: actions/upload-artifact@v4
+        with:
+          name: "build-artifacts-1"
+          compression-level: 0
+          retention-days: 1
+          overwrite: true
+          if-no-files-found: ignore
+          path: |
+              CoreELEC/target/CE*-????-[a-k]*
+              LibreELEC.tv/target/LE*-????-[a-k]*
