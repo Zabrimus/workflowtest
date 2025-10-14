@@ -67,7 +67,7 @@ jobs:
           )
           
           ls -la LibreELEC.tv/target
-          ls -la CoreELECs/target
+          ls -la CoreELEC/target
 
       - name: Save release target files (part 1)
         uses: actions/upload-artifact@v4
