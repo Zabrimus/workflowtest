@@ -96,6 +96,16 @@ jobs:
           if-no-files-found: ignore
           path: |
             CoreELEC/target/CE*-VDR-????-[l-zL-Z]*
-            CoreELEC/target/CE*-VDR-????.*
             LibreELEC.tv/target/LE*-VDR-????-[l-zL-Z]*
+
+      - name: Save release target files (part 3)
+        uses: actions/upload-artifact@v4
+        with:
+          name: "build-artifacts-2"
+          compression-level: 0
+          retention-days: 1
+          overwrite: true
+          if-no-files-found: ignore
+          path: |
+            CoreELEC/target/CE*-VDR-????.*
             LibreELEC.tv/target/LE*-VDR-????.*
