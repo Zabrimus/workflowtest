@@ -21,6 +21,24 @@ jobs:
           touch LibreELEC.tv/target/LibreELEC-Z6.aarch64-12.2-VDR-1014.system
           touch LibreELEC.tv/target/LibreELEC-Z6.aarch64-12.2-VDR-1014.tar
           touch LibreELEC.tv/target/LibreELEC-Z6.aarch64-12.2-VDR-1014.tar.sha256
+          
+          touch LibreELEC.tv/target/LibreELEC-Generic-legacy.x86_64-12.2-VDR-1013.img.gz
+          touch LibreELEC.tv/target/LibreELEC-Generic-legacy.x86_64-12.2-VDR-1013.img.gz.sha256
+          touch LibreELEC.tv/target/LibreELEC-Generic-legacy.x86_64-12.2-VDR-1013.ova
+          touch LibreELEC.tv/target/LibreELEC-Generic-legacy.x86_64-12.2-VDR-1013.ova.sha256
+          touch LibreELEC.tv/target/LibreELEC-Generic-legacy.x86_64-12.2-VDR-1013.tar
+          touch LibreELEC.tv/target/LibreELEC-Generic-legacy.x86_64-12.2-VDR-1013.tar.sha256
+          
+          touch CoreELEC/target/CE-Amlogic-ne.aarch64--20.5-VDR-1013-Generic.img.gz
+          touch CoreELEC/target/CE-Amlogic-ne.aarch64--20.5-VDR-1013-Generic.img.gz.sha256
+          touch CoreELEC/target/CE-Amlogic-ne.aarch64--20.5-VDR-1013-Khadas_VIM1S.img.gz
+          touch CoreELEC/target/CE-Amlogic-ne.aarch64--20.5-VDR-1013-Khadas_VIM1S.img.gz.sha256
+          touch CoreELEC/target/CE-Amlogic-ne.aarch64--20.5-VDR-1013-Khadas_VIM4.img.gz
+          touch CoreELEC/target/CE-Amlogic-ne.aarch64--20.5-VDR-1013-Khadas_VIM4.img.gz.sha256
+          touch CoreELEC/target/CE-Amlogic-ne.aarch64--20.5-VDR-1013.tar
+          touch CoreELEC/target/CE-Amlogic-ne.aarch64--20.5-VDR-1013.tar.sha256
+          touch CoreELEC/target/CE-Amlogic-ne.aarch64--21.2-VDR-1013-Generic.img.gz
+          touch CoreELEC/target/CE-Amlogic-ne.aarch64--21.2-VDR-1013-Generic.img.gz.sh
 
       - name: Rename
         run: |
@@ -46,20 +64,8 @@ jobs:
           overwrite: true
           if-no-files-found: ignore
           path: |
-            CoreELEC/target/CE-*
-            LibreELEC.tv/target/LE-*
-
-      - name: Save release target files (part 1)
-        uses: actions/upload-artifact@v4
-        with:
-          name: "build-artifacts-1"
-          compression-level: 0
-          retention-days: 1
-          overwrite: true
-          if-no-files-found: ignore
-          path: |
               CoreELEC/target/CE*-????-[a-kA-K]*
-              LibreELEC.tv/target/LE*-????-[a-kA-K]*
+              LibreELEC.tv/target/LE-[a-kA-K]*
 
       - name: Save release target files (part 2)
         uses: actions/upload-artifact@v4
@@ -71,4 +77,4 @@ jobs:
           if-no-files-found: ignore
           path: |
             CoreELEC/target/CE*-????-[l-zL-Z]*
-            LibreELEC.tv/target/LE*-????-[l-zL-Z]*
+            LibreELEC.tv/target/LE-[l-zL-Z]*
