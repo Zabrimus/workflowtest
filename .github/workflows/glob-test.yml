@@ -84,7 +84,7 @@ jobs:
           if-no-files-found: ignore
           path: |
               CoreELEC/target/CE*-VDR-????-[a-kA-K]*
-              LibreELEC.tv/target/LE*-VDR-????-[a-zA-Z]*
+              LibreELEC.tv/target/LE*-VDR-????-[a-kA-K]*
 
       - name: Save release target files (part 2)
         uses: actions/upload-artifact@v4
