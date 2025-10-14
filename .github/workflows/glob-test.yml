@@ -39,9 +39,9 @@ jobs:
           touch CoreELEC/target/CE-Amlogic-ne.aarch64--20.5-VDR-1013-Generic.img.gz
           touch CoreELEC/target/CE-Amlogic-ne.aarch64--20.5-VDR-1013-Generic.img.gz.sha256
           touch CoreELEC/target/CE-Amlogic-ne.aarch64--20.5-VDR-1013-Khadas_VIM1S.img.gz
-          touch CoreELEC/target/CE-Amlogic-ne.aarch64--20.5-VDR-1013-Khadas_VIM1S.img.gz.sha256
-          touch CoreELEC/target/CE-Amlogic-ne.aarch64--20.5-VDR-1013-Khadas_VIM4.img.gz
-          touch CoreELEC/target/CE-Amlogic-ne.aarch64--20.5-VDR-1013-Khadas_VIM4.img.gz.sha256
+          touch CoreELEC/target/CE-Amlogic-ne.aarch64--20.5-VDR-1013-Zhadas_VIM1S.img.gz.sha256
+          touch CoreELEC/target/CE-Amlogic-ne.aarch64--20.5-VDR-1013-Zadas_VIM4.img.gz
+          touch CoreELEC/target/CE-Amlogic-ne.aarch64--20.5-VDR-1013-Xhadas_VIM4.img.gz.sha256
           touch CoreELEC/target/CE-Amlogic-ne.aarch64--20.5-VDR-1013.tar
           touch CoreELEC/target/CE-Amlogic-ne.aarch64--20.5-VDR-1013.tar.sha256
           touch CoreELEC/target/CE-Amlogic-ne.aarch64--21.2-VDR-1013-Generic.img.gz
