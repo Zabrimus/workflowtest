@@ -36,16 +36,16 @@ jobs:
           touch LibreELEC.tv/target/LibreELEC-Generic-legacy.x86_64-12.2-VDR-1013.tar
           touch LibreELEC.tv/target/LibreELEC-Generic-legacy.x86_64-12.2-VDR-1013.tar.sha256
           
-          touch CoreELEC/target/CE-Amlogic-ne.aarch64--20.5-VDR-1013-Generic.img.gz
-          touch CoreELEC/target/CE-Amlogic-ne.aarch64--20.5-VDR-1013-Generic.img.gz.sha256
-          touch CoreELEC/target/CE-Amlogic-ne.aarch64--20.5-VDR-1013-Khadas_VIM1S.img.gz
-          touch CoreELEC/target/CE-Amlogic-ne.aarch64--20.5-VDR-1013-Zhadas_VIM1S.img.gz.sha256
-          touch CoreELEC/target/CE-Amlogic-ne.aarch64--20.5-VDR-1013-Zadas_VIM4.img.gz
-          touch CoreELEC/target/CE-Amlogic-ne.aarch64--20.5-VDR-1013-Xhadas_VIM4.img.gz.sha256
-          touch CoreELEC/target/CE-Amlogic-ne.aarch64--20.5-VDR-1013.tar
-          touch CoreELEC/target/CE-Amlogic-ne.aarch64--20.5-VDR-1013.tar.sha256
-          touch CoreELEC/target/CE-Amlogic-ne.aarch64--21.2-VDR-1013-Generic.img.gz
-          touch CoreELEC/target/CE-Amlogic-ne.aarch64--21.2-VDR-1013-Generic.img.gz.sh
+          touch CoreELEC/target/CE-Amlogic-ne.aarch64-20.5-VDR-1013-Generic.img.gz
+          touch CoreELEC/target/CE-Amlogic-ne.aarch64-20.5-VDR-1013-Generic.img.gz.sha256
+          touch CoreELEC/target/CE-Amlogic-ne.aarch64-20.5-VDR-1013-Khadas_VIM1S.img.gz
+          touch CoreELEC/target/CE-Amlogic-ne.aarch64-20.5-VDR-1013-Zhadas_VIM1S.img.gz.sha256
+          touch CoreELEC/target/CE-Amlogic-ne.aarch64-20.5-VDR-1013-Zadas_VIM4.img.gz
+          touch CoreELEC/target/CE-Amlogic-ne.aarch64-20.5-VDR-1013-Xhadas_VIM4.img.gz.sha256
+          touch CoreELEC/target/CE-Amlogic-ne.aarch64-20.5-VDR-1013.tar
+          touch CoreELEC/target/CE-Amlogic-ne.aarch64-20.5-VDR-1013.tar.sha256
+          touch CoreELEC/target/CE-Amlogic-ne.aarch64-21.2-VDR-1013-Generic.img.gz
+          touch CoreELEC/target/CE-Amlogic-ne.aarch64-21.2-VDR-1013-Generic.img.gz.sh
 
       - name: Rename
         run: |
@@ -83,8 +83,8 @@ jobs:
           overwrite: true
           if-no-files-found: ignore
           path: |
-              CoreELEC/target/CE*-VDR-????-[a-kA-K]*
-              LibreELEC.tv/target/LE*-VDR-????-[a-kA-K]*
+              CoreELEC/target/CE*-VDR-????-[a-kA-K].*
+              LibreELEC.tv/target/LE*-VDR-????-[a-kA-K].*
 
       - name: Save release target files (part 2)
         uses: actions/upload-artifact@v4
@@ -95,5 +95,5 @@ jobs:
           overwrite: true
           if-no-files-found: ignore
           path: |
-            CoreELEC/target/CE*-VDR-????-[l-zL-Z]*
-            LibreELEC.tv/target/LE*-VDR-????-[l-zL-Z]*
+            CoreELEC/target/CE*-VDR-????-[l-zL-Z].*
+            LibreELEC.tv/target/LE*-VDR-????-[l-zL-Z].*
