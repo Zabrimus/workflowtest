@@ -24,6 +24,11 @@ jobs:
           touch LibreELEC.tv/target/LibreELEC-AMLGX.aarch64-12.2-VDR-1014-bananapi-m2-pro.img.gz
           touch LibreELEC.tv/target/LibreELEC-AMLGX.aarch64-12.2-VDR-1014-bananapi-m2-pro.img.gz.sha256
 
+          touch LibreELEC.tv/target/LibreELEC-AMLGX.aarch64-12.2-VDR-1014-xlta.img.gz
+          touch LibreELEC.tv/target/LibreELEC-AMLGX.aarch64-12.2-VDR-1014-ylta.img.gz.sha256
+          touch LibreELEC.tv/target/LibreELEC-AMLGX.aarch64-12.2-VDR-1014-znanapi-m2-pro.img.gz
+          touch LibreELEC.tv/target/LibreELEC-AMLGX.aarch64-12.2-VDR-1014-Qananapi-m2-pro.img.gz.sha256
+
           touch LibreELEC.tv/target/LibreELEC-Generic-legacy.x86_64-12.2-VDR-1013.img.gz
           touch LibreELEC.tv/target/LibreELEC-Generic-legacy.x86_64-12.2-VDR-1013.img.gz.sha256
           touch LibreELEC.tv/target/LibreELEC-Generic-legacy.x86_64-12.2-VDR-1013.ova
