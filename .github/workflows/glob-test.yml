@@ -83,8 +83,8 @@ jobs:
           overwrite: true
           if-no-files-found: ignore
           path: |
-              CoreELEC/target/CE*-VDR-????-[a-kA-K].*
-              LibreELEC.tv/target/LE*-VDR-????-[a-kA-K].*
+              CoreELEC/target/CE*-VDR-????-[a-kA-K]*
+              LibreELEC.tv/target/LE*-VDR-????-[a-zA-Z]*
 
       - name: Save release target files (part 2)
         uses: actions/upload-artifact@v4
@@ -95,5 +95,7 @@ jobs:
           overwrite: true
           if-no-files-found: ignore
           path: |
-            CoreELEC/target/CE*-VDR-????-[l-zL-Z].*
-            LibreELEC.tv/target/LE*-VDR-????-[l-zL-Z].*
+            CoreELEC/target/CE*-VDR-????-[l-zL-Z]*
+            CoreELEC/target/CE*-VDR-????.*
+            LibreELEC.tv/target/LE*-VDR-????-[l-zL-Z]*
+            LibreELEC.tv/target/LE*-VDR-????.*
