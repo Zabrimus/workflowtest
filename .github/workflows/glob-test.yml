@@ -3,7 +3,16 @@ name: Glob Test
 # Controls when the workflow will run
 on:
   workflow_dispatch:
-
+    inputs:
+      target:
+        description: "build"
+        type: choice
+        options:
+          - CoreELEC-20
+          - CoreELEC-21
+          - CoreELEC-22
+          - LibreELEC-12
+          - LibreELEC-13
 jobs:
   build:
     runs-on: ubuntu-24.04
@@ -77,7 +86,7 @@ jobs:
       - name: Save release target files (part 1)
         uses: actions/upload-artifact@v4
         with:
-          name: "build-artifacts-1"
+          name: "build-artifacts-2025-10-17.1-CoreELEC-20-ng-3"
           compression-level: 0
           retention-days: 1
           overwrite: true
@@ -89,7 +98,7 @@ jobs:
       - name: Save release target files (part 2)
         uses: actions/upload-artifact@v4
         with:
-          name: "build-artifacts-2"
+          name: "build-artifacts-2025-10-17.1-CoreELEC-21-ne-3"
           compression-level: 0
           retention-days: 1
           overwrite: true
@@ -101,7 +110,7 @@ jobs:
       - name: Save release target files (part 3)
         uses: actions/upload-artifact@v4
         with:
-          name: "build-artifacts-3"
+          name: "build-artifacts-2025-10-17.1-CoreELEC-22-no-3"
           compression-level: 0
           retention-days: 1
           overwrite: true
@@ -109,3 +118,14 @@ jobs:
           path: |
             CoreELEC/target/CE*-VDR-????.*
             LibreELEC.tv/target/LE*-VDR-????.*
+
+      - name: Download release artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: build-artifacts
+          pattern: build-artifacts-*${{ inputs.target }}*
+          merge-multiple: true
+
+      - name: List files
+        run: |
+          ls -la build-artifacts
