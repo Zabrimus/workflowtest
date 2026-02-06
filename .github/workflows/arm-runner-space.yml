@@ -17,6 +17,9 @@ jobs:
         run: |
           echo "--- Vorher"
           df -h
+          sudo dpkg -l
+          sudo apt update
+          sudo apt search gcc
 
       - name: Maximize build space
         uses: Zabrimus/maximize-build-space@master
@@ -25,4 +28,6 @@ jobs:
         run: |
           echo "--- Nachher"
           df -h
+          sudo dpkg -l
+          sudo apt search gcc
 
